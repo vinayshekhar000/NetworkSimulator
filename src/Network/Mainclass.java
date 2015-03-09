@@ -15,7 +15,7 @@ public class Mainclass {
 		int i;
 		for (i=0;i<size;i++)
 		{
-			list[i]=new Node(i,size);
+			list[i]=new Node(i,size,a);
 		}
 		for (i=0;i<size;i++)
 		{

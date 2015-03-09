@@ -4,12 +4,15 @@ public class Node {
 	int data;
 	Node ref[];
 	Data packets;
-	Node(int data, int size){
+	QueuePackets[] queue;
+	int adjacency[][];
+	Node(int data, int size,int a[][]){
 		this.data=data;
 		ref = new Node[size];
+		queue = new QueuePackets[size];
 		packets=new Data();
+		adjacency=a;
 	}
-
 	void makeLink(int a[], int size, Node list[])
 	{
 		int i;
@@ -17,7 +20,8 @@ public class Node {
 		{
 			if (a[i]==1)
 			{
-				ref[i]=list[i];
+				ref[i]=list[i];//The reference to the node is made if there is an edge in the graph
+				queue[i]=new QueuePackets();//THe ith queue contains qnodes (Packets being data) of ith Node in the graph
 			}
 		}
 	}

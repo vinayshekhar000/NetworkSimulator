@@ -1,5 +1,5 @@
+package Network;
 import java.util.Scanner;
-
 class Path {
 	LinkedList path1;
 	LinkedList path2;
@@ -10,7 +10,7 @@ class Path {
 		path2=new LinkedList();
 	}
 	
-	void findShortest(int a[][], int size, int dest)
+	public void findShortest(int a[][], int size, int dest)
 	{
 		int i, tempdist;
 		int dist[] = new int[size];
@@ -33,10 +33,10 @@ class Path {
 		for (i=0;i<size;i++)
 		{
 			//computing minimum 
-			Node temp=list.head;
+			NodePath temp=list.head;
 			while(temp!=null)
 			{
-				//checking if the current node is connected to the node in the list
+				//checking if the current NodePathPath is connected to the NodePathPath in the list
 				if (a[i][temp.data]!=0)
 				{	
 					tempdist=dist[temp.data] + a[i][temp.data]; // adding distance of edge to the existing shortest distance 

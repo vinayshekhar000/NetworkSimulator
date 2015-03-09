@@ -1,13 +1,22 @@
 package Network;
 
 public class Data {
-	int packets[];
-	int numpackets;
-	String path;
+	String info[];
+	int infolength;
+	int totalNumPackets;
+	int packetNo;
+	
 	int receivePackets[];
 	Data(){
-		packets=new int[100];
-		numpackets=packets.length;
-		//path=
+		info=new String[100];
+		infolength=info.length;
+	}
+	void setData(String str[],int total,int packNo){
+		int i;
+		for(i=0;i<str.length;i++){
+			info[i]+=(str[i]);
+		}
+		totalNumPackets=total;
+		packetNo=packNo;
 	}
 }
