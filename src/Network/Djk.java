@@ -10,106 +10,75 @@ class Path {
 		path2=new LinkedList();
 	}
 	
-	public void findShortest(int a[][],int size,int dest){
-		int pathlen=1;
-		int mark[]=new int[size];
-		Queue q=new Queue();
-		q.enqueue(0);
-		mark[0]=pathlen;
-		LinkedList list1[]=new LinkedList[size];
-		LinkedList list2[]=new LinkedList[size];
-		for(int i=0;i<size;i++){
-			list1[i]=new LinkedList();
-			list2[i]=new LinkedList();
+	void findShortest(int a[][], int size, int dest)
+	{
+		int i, tempdist;
+		int dist[] = new int[size];
+		int dist2[]=new int[size];
+		LinkedList list = new LinkedList();
+		LinkedList path[] = new LinkedList[size];
+		LinkedList secpath2[] = new LinkedList[size];
+		for (i=0;i<size;i++)
+		{
+			path[i]=new LinkedList();
+			secpath2[i]=new LinkedList();
+		}	
+		for (i=0;i<size;i++)
+		{
+			dist[i]=Integer.MAX_VALUE;
 		}
-		int j; // counter keeps track of the number of times you visit each node
-		int counter[] = new int[size];
-		while(q.size!=0){
-			pathlen=1+mark[q.front]; //adding one to length of previous node..
-			if(counter[dest]==2){
-				break;
-			}
-			if (1==counter[dest])
+		dist[0]=0;
+		path[0].add(0);
+		secpath2[0].add(0);
+		for (i=0;i<size;i++)
+		{
+			//computing minimum 
+			Node temp=list.head;
+			while(temp!=null)
 			{
-				System.out.println("\nFound shortest path");
-				display(list1,list2,size);
-			}
-
-			for(j=0;j<size;j++){
-				if(a[q.front][j]==1 && counter[j]<2){
-					mark[j]=pathlen;
-					int k;
-					counter[j]++;
-					if (1==counter[j]){
-						list1[j].copyContents(list1[q.front]);
-						list1[j].add(j);
-					}
-					else if (2==counter[j]){
-						if (counter[q.front]==1)
-						{
-							list2[j].copyContents(list1[q.front]);
-							list2[j].add(j);
-						}
-						else if (counter[q.front]==2)
-						{
-							list2[j].copyContents(list2[q.front]);
-							list2[j].add(j);
-						}
-					}
-					if (j==dest)
+				//checking if the current node is connected to the node in the list
+				if (a[i][temp.data]!=0)
+				{	
+					tempdist=dist[temp.data] + a[i][temp.data]; // adding distance of edge to the existing shortest distance 
+					if (tempdist<dist[i]) // if tempdata is smaller than existing shortest distance
 					{
-						if (counter[dest]==1)
-							path1len=mark[dest];
-						else 
-							path2len=mark[dest];
+						dist2[i]=dist[i];
+						dist[i]=tempdist;
+						secpath2[i].copyContents(path[i]);
+						path[i].copyContents(path[temp.data]);
+						path[i].add(i);
 					}
-					System.out.println("Coming here");
-					q.enqueue(j);
+					//checking if the edge can modify dist[temp.data]
+					tempdist=dist[i]+a[i][temp.data];
+					if (tempdist<dist[temp.data])
+					{
+						dist2[temp.data]=dist[temp.data];
+						dist[temp.data]=tempdist;
+						secpath2[temp.data].copyContents(path[temp.data]);
+						path[temp.data].copyContents(path[i]);
+						path[temp.data].add(temp.data);
+					}
 				}
+				temp=temp.next;
 			}
-			q.dequeue();
-		}
-		System.out.println("Shortest path is ="+mark[dest]);
-		System.out.println("The array of paths generated are");
-		//display(path);
-		display(list1,list2,size);
-	}
-	public void display(int a[][]){
-		int i,j;
-		for(i=0;i<a.length;i++){
-			for(j=0;j<a[i].length;j++){
-				System.out.print(a[i][j]+"\t");
-			}
-			System.out.println();
-		}
-	}
-	public void  display(LinkedList[] list1, LinkedList list2[], int size) {
-		int i;
-		System.out.print("shortest paths \n");
-		for(i=0;i<size;i++){
-			System.out.print("\n for node " + i + " ");
-			Node p=list1[i].head;
-			while(p!=null){
-				System.out.print(p.data+"\t");
-				p=p.next;
-			}
-		}
-		System.out.println();
-		System.out.print("2nd shortest paths \n");
-		for(i=0;i<size;i++){
-			System.out.print("\n for node " + i + " ");
-			Node p=list2[i].head;
-			while(p!=null){
-				System.out.print(p.data+"\t");
-				p=p.next;
-			}
-		}
-		System.out.println();
-		}
-	
-}
-	
 
+			//the shortest distance has been updated
+			list.add(i);
+
+		}
+
+		System.out.println("Displaying paths for all");
+		for (i=0;i<size;i++)
+		{
+			System.out.print("path for " + i+ " ");
+			path[i].display();
+		}
+		path1len=dist[dest];
+		path2len=dist2[dest];
+		path1 = path[dest];
+		path2 = secpath2[dest];
+	}
+}
 
 public class Djk {
 	public static void main(String args[]){
@@ -127,5 +96,12 @@ public class Djk {
 		System.out.println("enter the destination");
 		int dest=in.nextInt();
 		path.findShortest(a,size,dest);
+		System.out.println("shortest distance is " + path.path1len);
+		System.out.println("shortest path is ");
+		path.path1.display();
+		System.out.println("second shortest distance is " + path.path2len);
+		System.out.println("shortest path is ");
+		path.path2.display();
+		
 	}
 }
