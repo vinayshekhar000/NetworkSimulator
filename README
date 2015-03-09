@@ -1,0 +1,39 @@
+Graph 
+	contains the adjacency matrix and the size
+	contains the array of Nodes
+	things to do 
+		needs to continously update the weights of the graphs based on the size of the queues in each Node
+		initialize all the Nodes and it's data
+		take in request to transmit data from one node to the other 
+		do a "send" operation in each node (sequentially, make it look simultaneous and then do multithreading later if there's time)
+
+Path   
+	contains shortest and 2nd shortest path
+	has functions to compute it given the adjacency matrix
+Packet
+	contains a Data Object
+	contains a Path Object 
+	contains an array as the path to traverse
+	contains a boolean, 0 for shortest and 1 for 2nd shortest
+	contains a counter for showing which position of the path it is in
+	things to do -
+		needs to initialize path (takes the adjacency matrix from the Graph class) 
+
+Data 
+	contains data (obviously)
+	size of data
+	packetnumber 
+	things to do 
+		initialize data
+		maybe compress the data if we can 
+		
+Node 
+	contains an array of packets
+	contains the list of nodes it is connected to 
+	contains an array of Queues (one for each link that it has) of Packets
+	things to do 
+		initialize all the stuff (somehow, Graph class takes care of providing the adjacency matrix)
+		send() - dequeues the packet that it has in the front of each queue, enqueues it to the corresponding queue of the next Node 
+				// needs to check for queue overflow, if there is an overflow, it needs to wait
+	
+	
